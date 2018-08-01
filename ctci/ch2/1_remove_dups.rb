@@ -1,15 +1,38 @@
-def remove_dups(node)
-  hsh = Hash.new(){Array.new()}
+require 'Set'
+
+def remove_dups(head)
+  set = Set.new
+  node = head
+  prev_node = head
   while node != nil
-    data = node.data
-    hsh[data].push(node)
+    if set.include?(node.data)
+      prev_node.next = node.next
+    else
+      set.add(node.data)
+      prev_node = node
+    end
     node = node.next
   end
-  hsh.each do |data, nodes|
-    if nodes.length > 1
-      nodes.each do |node|
-        node.previous.next = node.next
+
+  head
+end
+
+def remove_dups(head)
+  node = head
+  runner_node = node.next
+  prev_node = head
+  while node != nil
+    while runner_node != nil
+      if runner_node.data == node.data
+        prev_node.next = runner_node.next
+        runner_node = runner_node.next
+      else
+        prev_node = runner_node
+        runner_node = runner_node.next
       end
     end
+    node = node.next
   end
+
+  head
 end
